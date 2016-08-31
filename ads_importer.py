@@ -55,7 +55,7 @@ bibtex = open(bibfile,'a')      # open for appending (very C-like)
 
 for c in cites:
     if c not in haves:
-        r = requests.post('http://adsabs.harvard.edu/cgi-bin/nph-bib_query',    # CGI script
+        r = requests.post('http://ukads.nottingham.ac.uk/cgi-bin/nph-bib_query',    # CGI script
                           data = {'bibcode': c, 'data_type': 'BIBTEX'} )        # CGI parameters (note pretty indent)
 
 # we could also have done a (more restrictive) GET HTTP request
