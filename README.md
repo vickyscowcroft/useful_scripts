@@ -7,6 +7,8 @@ Reference all your citeations (\citet etc.) as the ads bibcode and it will match
 Usage: ads_importer.py latexfile
 oputputs the file you input to bibliography{}. Note that the latexfile input has no extension!!
 
+ - 2018/05/31 Updated ads\_importer.py to include decoding the ads response (.decode('utf-8') in re.search) for python 3.5 compatibility.
+
 * annotated_lightcurve.py: Makes a lightcurve of a star and annotates it. Good script for making pretty lightcurves. Examples of filling between lines, annotating a plot, and various other useful matplotlib stuff.
 
 * inverse\_wavelength\_mu.py: Makes a plot of distance modulus vs inverse wavelength. Does the reddening law fit using CCM and Indebetouw laws at the corresponding wavelengths, and adds a second plot below showing residuals.
