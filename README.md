@@ -25,3 +25,5 @@ oputputs the file you input to bibliography{}. Note that the latexfile input has
 
 * gawk\_just\_filenames.csh: Saves a list of the filenames in a folder. Useful when filenames have spaces.
 
+* latex\_it.csh: Script to latex + bibtex stuff. Grabs bib info from ads.
+
