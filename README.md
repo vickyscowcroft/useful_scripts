@@ -21,3 +21,7 @@ oputputs the file you input to bibliography{}. Note that the latexfile input has
 
 * coordinate\_conversion.py: Converts back and forward between degrees and sexagesimal RA and Dec coordinates. 
 
+* lightcurve\_folder.py: Folds a lightcurve on a given period.
+
+* gawk\_just\_filenames.csh: Saves a list of the filenames in a folder. Useful when filenames have spaces.
+
