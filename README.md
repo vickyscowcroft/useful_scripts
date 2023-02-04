@@ -27,3 +27,4 @@ oputputs the file you input to bibliography{}. Note that the latexfile input has
 
 * latex\_it.csh: Script to latex + bibtex stuff. Grabs bib info from ads.
 
+* vickys\_useful\_functions.py: Useful little things. 
