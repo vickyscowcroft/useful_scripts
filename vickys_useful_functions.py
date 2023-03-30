@@ -100,5 +100,35 @@ def read_gaia_epoch_photometry_from_query(source_id):
 
     return(df)
 
+def set_up_dataframe_cols(filters):
+    mags = np.array([])
+    for i in range(0, len(filters)):
+        mags = np.append(mags, 'mag_' + filters[i])  
+    errs = np.array([])
+    for i in range(0, len(filters)):
+        errs = np.append(errs, 'err_' + filters[i])
+    names = np.array(['MJD'])
+    for i in range(0, len(filters)):
+        names = np.append(names, mags[i])
+        names = np.append(names, errs[i])
+    return(names)
 
+def get_gaia_jds(vot_df, jd_col = 'time', filt='all'):
+    if filt!='all':
+        """ times are JD-2455197.5"""
+        times = vot_df[vot_df.band==filt][jd_col]
+        jds = times + 2455197.5
+    else:
+        times = vot_df[jd_col]
+        jds = times + 2455197.5
+    return(jds)
+    
+def get_gaia_errs(flux_over_error, filt):
+
+    """ Need to update to get the correct zp_errs for DR3"""
+    filters = ['G', 'BP', 'RP']
+    zp_err = [0.0027553202, 0.0027901700, 0.0037793818]
+    errs = np.sqrt((-2.5/(np.log(10)*flux_over_error))**2 + zp_err[filters==filt]**2)
+    return(errs)
+    
     
