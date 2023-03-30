@@ -4,6 +4,7 @@ import pandas as pd
 import pyvo as vo
 import re
 import numpy as np
+from astroquery.gaia import Gaia
 
 def remove_whitespace_from_cols(df):
     """ removes leading and trailing whitespace from dataframe column names """
@@ -60,6 +61,44 @@ def kpc_to_mu(d_kpc):
 	d_pc = d_kpc * 1000.
 	mu = 5*np.log10(d_pc) - 5.0
 	return(mu)
-	
+
+def read_gaia_epoch_photometry_from_query(source_id):
+    """ read in the gaia epoch photometry files from datalink
+    and convert to the right type of file for gloess
+    """
+    retrieval_type = 'EPOCH_PHOTOMETRY'          # Options are: 'EPOCH_PHOTOMETRY', 'MCMC_GSPPHOT', 'MCMC_MSC', 'XP_SAMPLED', 'XP_CONTINUOUS', 'RVS', 'ALL'
+    data_structure = 'INDIVIDUAL'   # Options are: 'INDIVIDUAL', 'COMBINED', 'RAW'
+    data_release   = 'Gaia DR3'     # Options are: 'Gaia DR3' (default), 'Gaia DR2'
+
+
+    datalink = Gaia.load_data(ids=source_id, data_release = data_release, retrieval_type=retrieval_type, data_structure = data_structure, verbose = False, output_file = None)
+
+    dl_key = 'EPOCH_PHOTOMETRY-Gaia DR3 ' + str(source_id) + '.xml'
+    vot_df = datalink[dl_key][0].to_table().to_pandas()
+    #vot_df = vot.parse_single_table(filename).to_table().to_pandas()
+    if vot_df.source_id.nunique() > 1:
+        print('more than one source_id in this file.')
+        return(1)
+    vot_df.dropna(subset='time', inplace=True)
+    piv_df = vot_df[['band', 'time', 'mag', 'flux_over_error', 'source_id']].pivot(index="time", columns="band", values=["mag", 'flux_over_error', 'source_id'])
+    """ check it's just a single object """
+    
+    filters = vot_df.band.unique()
+    """ times are JD-2455197.5"""
+    names = set_up_dataframe_cols(filters)
+    names = np.append(names, 'source_id')
+    df = pd.DataFrame(columns=names, index=vot_df.time.dropna().values)
+    df['Gaia_JD'] = df.index.copy()
+    df['MJD'] = get_gaia_jds(df, jd_col='Gaia_JD')
+    for filt in filters:
+        mag_col = 'mag_' + filt
+        err_col = 'err_' + filt
+        df[mag_col] = piv_df[('mag', filt)]
+        df[err_col] = piv_df.apply(lambda x: get_gaia_errs(x[('flux_over_error', filt)], filt), axis=1)
+    df['source_id'] = vot_df['source_id'][0]
+    df.reset_index(inplace=True, drop=True)
+
+    return(df)
+
 
     
