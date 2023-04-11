@@ -1,0 +1,16 @@
+﻿band,wavelength_um,zeropoint_Jy,Notes
+J,1.235,1594,
+H,1.662,1024,
+Ks,2.159,666.7,K short not K
+IRAC1,3.6,280.9,
+IRAC2,4.5,179.7,
+IRAC3,5.8,115,
+IRAC4,8,64.13,
+U,0.36,1755,
+B,0.44,4000.87,
+V,0.55,3597.28,
+R,0.71,3080,Cousins
+I,0.79,2432.84,Cousins
+G,0.622,3229,Gaia DR3
+BP,0.511,3552,Gaia DR3
+RP,0.777,2555,Gaia DR3

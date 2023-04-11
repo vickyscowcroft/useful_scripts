@@ -63,7 +63,7 @@ for c in cites:
 # where % yields the Python %-formatting for strings
 
         if r.ok:                                            # found it!
-            m = re.search(r'(@.*\})',r.content.decode('utf-8'),re.DOTALL)   # get everything after the first @
+            m = re.search(r'(@.*\})',r.content,re.DOTALL)   # get everything after the first @
                                                             # until the last }
             bibtex.write(m.group(1) + '\n')                 # write to file with extra newline
             # check: print "Found:", c
